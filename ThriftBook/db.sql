@@ -7,7 +7,7 @@ IF OBJECT_ID('BookRating', 'U')
     GO
     
 CREATE TABLE BookDetails(
-	bookID INT IDENTITY(1,1)	PRIMARY KEY,
+	bookID INT	PRIMARY KEY,
 	title	  VARCHAR(30),	
 	author	  VARCHAR(30),	
 	gennre	  VARCHAR(30),
@@ -15,10 +15,10 @@ CREATE TABLE BookDetails(
 	bookQuantity INT,
 	bookPhoto  VARCHAR(255),
 	price	  MONEY CHECK(price>0));
-INSERT INTO BookDetails VALUES( 'Your Next Five Moves', ' Greg Dinkin', 'Business & Investing', 'like new',5,'https://images-na.ssl-images-amazon.com/images/I/41z2wSFrXbL._SX326_BO1,204,203,200_.jpg',14);
-INSERT INTO BookDetails VALUES( 'The Christmas Pig', 'J.K. Rowling', 'Children Books','good', 3,'https://images-na.ssl-images-amazon.com/images/I/51rg5EDPpDL._SX336_BO1,204,203,200_.jpg',12);
-INSERT INTO BookDetails VALUES('The Very Hungry Caterpillar', 'Eric Carle ', 'Children Books','old',2, 'https://images-na.ssl-images-amazon.com/images/I/41tyokViuNL._SY355_BO1,204,203,200_.jpg',6.25);
-INSERT INTO BookDetails VALUES('Will', 'Will Smith ', 'Biographies & Memoirs', 'like new', 3, 'https://images-na.ssl-images-amazon.com/images/I/51oDyfsqKwL._SX327_BO1,204,203,200_.jpg',10);
+INSERT INTO BookDetails VALUES(1, 'Your Next Five Moves', ' Greg Dinkin', 'Business & Investing', 'like new',5,'https://images-na.ssl-images-amazon.com/images/I/41z2wSFrXbL._SX326_BO1,204,203,200_.jpg',14);
+INSERT INTO BookDetails VALUES(2, 'The Christmas Pig', 'J.K. Rowling', 'Children Books','good', 3,'https://images-na.ssl-images-amazon.com/images/I/51rg5EDPpDL._SX336_BO1,204,203,200_.jpg',12);
+INSERT INTO BookDetails VALUES(3,'The Very Hungry Caterpillar', 'Eric Carle ', 'Children Books','old',2, 'https://images-na.ssl-images-amazon.com/images/I/41tyokViuNL._SY355_BO1,204,203,200_.jpg',6.25);
+INSERT INTO BookDetails VALUES(4,'Will', 'Will Smith ', 'Biographies & Memoirs', 'like new', 3, 'https://images-na.ssl-images-amazon.com/images/I/51oDyfsqKwL._SX327_BO1,204,203,200_.jpg',10);
 
     GO
 
