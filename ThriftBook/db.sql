@@ -33,3 +33,34 @@ INSERT INTO BookRating VALUES(2,1,4.8,'children like it');
 INSERT INTO BookRating VALUES(3,2,4.3,'');
     GO
 SELECT * FROM BookDetails
+
+	GO
+
+CREATE TABLE Buyer (
+	buyerID INT,
+	firstName VARCHAR(30),
+	lastName VARCHAR(30),
+	email VARCHAR(40),
+	city VARCHAR(30),
+	street VARCHAR(30),
+	postalCode VARCHAR(10),
+	phoneNumber int
+	PRIMARY KEY (buyerID));
+INSERT INTO Buyer VALUES(1,'Keanu','Reeves', 'keanureeves@gmail.com', 'Los Angeles', 'Coldwater Canyon', '90210', 123456);
+INSERT INTO Buyer VALUES((2,'Tiger','King', 'tigerking@gmail.com', 'Miami', 'Sunset Blvd.', '10101', 654321);
+INSERT INTO Buyer VALUES((3,'Homer','Simpson', 'homer.j.simpson@gmail.com', 'Springfield', 'Evergreen Terrace', '12121', 123321);
+INSERT INTO Buyer VALUES((4,'Daenerys', 'Targaryen', 'emailia.clarke@gmail.com', 'Dragonstone', 'Free Cities St.', '13337', 654321);
+
+	GO
+
+CREATE TABLE Store (
+	storeName VARCHAR(30),	
+	email VARCHAR(40),
+	city VARCHAR(30),
+	street VARCHAR(30),
+	postalCode VARCHAR(30),
+	phoneNumber int
+	PRIMARY KEY (storeName));
+INSERT INTO Buyer VALUES('ThriftBook','thriftbook@thriftbook.com','Vancouver', 'Pacific Boulevard', 'V2W1B5', '778-689-1000');
+
+	GO
