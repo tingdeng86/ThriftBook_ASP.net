@@ -61,6 +61,6 @@ CREATE TABLE Store (
 	postalCode VARCHAR(30),
 	phoneNumber int
 	PRIMARY KEY (storeName));
-INSERT INTO Buyer VALUES('ThriftBook','thriftbook@thriftbook.com','Vancouver', 'Pacific Boulevard', 'V2W1B5', '778-689-1000');
+INSERT INTO Store VALUES('ThriftBook','thriftbook@thriftbook.com','Vancouver', 'Pacific Boulevard', 'V2W1B5', '778-689-1000');
 
 	GO
