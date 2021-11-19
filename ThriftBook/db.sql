@@ -1,5 +1,6 @@
 ﻿
 
+
 IF OBJECT_ID('BookRating', 'U')    
 	IS NOT NULL DROP TABLE BookRating;
 
@@ -68,7 +69,7 @@ INSERT INTO Buyer VALUES(4,'Daenerys', 'Targaryen', 'emailia.clarke@gmail.com', 
 	customerId INT,	
 	email VARCHAR(40),
 	[password] VARCHAR(40),
-	buyerID INT,
+	buyerID	INT FOREIGN KEY REFERENCES Buyer(buyerID),
 	PRIMARY KEY (customerId));
 INSERT INTO Profile VALUES( 1,'keanureeves@gmail.com','socuteguy', 1);
 INSERT INTO Profile VALUES( 2,'tigerking@gmail.com','TingKing', 2);
@@ -116,4 +117,4 @@ INSERT INTO OrderDetail VALUES( 100004, 4, 1);
 INSERT INTO OrderDetail VALUES( 100005, 3, 1);
   GO
 
-
+SELECT * FROM BookDetail
