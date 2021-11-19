@@ -64,3 +64,47 @@ CREATE TABLE Store (
 INSERT INTO Store VALUES('ThriftBook','thriftbook@thriftbook.com','Vancouver', 'Pacific Boulevard', 'V2W1B5', '778-689-1000');
 
 	GO
+
+
+	CREATE TABLE Profile (
+	customerId int,	
+	email VARCHAR(40),
+	pword VARCHAR(40),
+	buyerID int,
+	PRIMARY KEY (customerId));
+INSERT INTO Profile VALUES( 1,'keanureeves@gmail.com','socuteguy', 1);
+INSERT INTO Profile VALUES( 2,'tigerking@gmail.com','TingKing', 2);
+INSERT INTO Profile VALUES( 3,'homer.j.simpson@gmail.com','theSimpsons', 3);
+INSERT INTO Profile VALUES( 4,'emailia.clarke@gmail.com','emailMe', 4);
+INSERT INTO Profile VALUES( 5,'beourguest@gmail.com','beautyandthebeast', null);
+INSERT INTO Profile VALUES( 6,'alicelost@gmail.com','inCodeland', null);
+
+	GO
+
+
+CREATE TABLE Invoice (
+	transactionId int,	
+	buyerID int,
+	totalPrice float,
+	dateOfTransaction date,
+	PRIMARY KEY (transactionId));
+INSERT INTO Invoice VALUES( 100001, 1, 4.30, 2021-10-16);
+INSERT INTO Invoice VALUES( 100002, 2, 8.10, 2021-11-03);
+INSERT INTO Invoice VALUES( 100003, 3, 11.20, 2021-11-08);
+INSERT INTO Invoice VALUES( 100004, 4, 7.50, 2021-11-13);
+INSERT INTO Invoice VALUES( 100005, 1, 5.60, 2021-11-15);
+
+	GO
+
+
+CREATE TABLE OrderDetail (
+    transactionId INT,
+    bookID	INT FOREIGN KEY REFERENCES BookDetails(bookID),
+	bookQuantity INT);
+INSERT INTO OrderDetail VALUES( 100001, 1, 1);
+INSERT INTO OrderDetail VALUES( 100002, 2, 1);
+INSERT INTO OrderDetail VALUES( 100003, 3, 1);
+INSERT INTO OrderDetail VALUES( 100004, 4, 1);
+INSERT INTO OrderDetail VALUES( 100005, 3, 1);
+
+  GO
