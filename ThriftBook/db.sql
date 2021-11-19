@@ -100,7 +100,8 @@ INSERT INTO Invoice VALUES( 100005, 1, 5.60, 2021-11-15);
 CREATE TABLE OrderDetail (
     transactionId INT,
     bookID	INT FOREIGN KEY REFERENCES BookDetails(bookID),
-	bookQuantity INT);
+	bookQuantity INT
+	PRIMARY KEY (transactionId, bookID));
 INSERT INTO OrderDetail VALUES( 100001, 1, 1);
 INSERT INTO OrderDetail VALUES( 100002, 2, 1);
 INSERT INTO OrderDetail VALUES( 100003, 3, 1);
