@@ -1,21 +1,33 @@
 ﻿
-IF OBJECT_ID('BookDetail', 'U')    
-	IS NOT NULL DROP TABLE BookDetail;
+
 IF OBJECT_ID('BookRating', 'U')    
 	IS NOT NULL DROP TABLE BookRating;
-IF OBJECT_ID('Buyer', 'U')    
-	IS NOT NULL DROP TABLE Buyer;
-IF OBJECT_ID('Store', 'U')    
-	IS NOT NULL DROP TABLE Store;
+
 IF OBJECT_ID('[Profile]', 'U')    
 	IS NOT NULL DROP TABLE [Profile];
 IF OBJECT_ID('Invoice', 'U')    
 	IS NOT NULL DROP TABLE Invoice;
 IF OBJECT_ID('OrderDetail', 'U')    
 	IS NOT NULL DROP TABLE OrderDetail;
-
+IF OBJECT_ID('BookDetail', 'U')    
+	IS NOT NULL DROP TABLE BookDetail;
+IF OBJECT_ID('Buyer', 'U')    
+	IS NOT NULL DROP TABLE Buyer;
+IF OBJECT_ID('Store', 'U')    
+	IS NOT NULL DROP TABLE Store;
     GO
-    
+   
+CREATE TABLE Store (
+	storeName VARCHAR(30),	
+	email VARCHAR(40),
+	city VARCHAR(30),
+	street VARCHAR(30),
+	postalCode VARCHAR(30),
+	phoneNumber VARCHAR(30),
+	PRIMARY KEY (storeName));
+INSERT INTO Store VALUES('ThriftBook','thriftbook@thriftbook.com','Vancouver', 'Pacific Boulevard', 'V2W1B5', '778-689-1000');
+
+	GO
 CREATE TABLE BookDetail(
 	bookID INT	PRIMARY KEY,
 	title	  VARCHAR(30),	
@@ -24,28 +36,14 @@ CREATE TABLE BookDetail(
 	bookQuality VARCHAR(20),
 	bookQuantity INT,
 	bookPhoto  VARCHAR(255),
-	price	  MONEY CHECK(price>0));
-INSERT INTO BookDetail VALUES(1, 'Your Next Five Moves', ' Greg Dinkin', 'Business & Investing', 'like new',5,'https://images-na.ssl-images-amazon.com/images/I/41z2wSFrXbL._SX326_BO1,204,203,200_.jpg',14);
-INSERT INTO BookDetail VALUES(2, 'The Christmas Pig', 'J.K. Rowling', 'Children Books','good', 3,'https://images-na.ssl-images-amazon.com/images/I/51rg5EDPpDL._SX336_BO1,204,203,200_.jpg',12);
-INSERT INTO BookDetail VALUES(3,'The Very Hungry Caterpillar', 'Eric Carle ', 'Children Books','old',2, 'https://images-na.ssl-images-amazon.com/images/I/41tyokViuNL._SY355_BO1,204,203,200_.jpg',6.25);
-INSERT INTO BookDetail VALUES(4,'Will', 'Will Smith ', 'Biographies & Memoirs', 'like new', 3, 'https://images-na.ssl-images-amazon.com/images/I/51oDyfsqKwL._SX327_BO1,204,203,200_.jpg',10);
+	price	  MONEY CHECK(price>0),
+	storeName	VARCHAR(30) FOREIGN KEY REFERENCES Store(storeName));
+INSERT INTO BookDetail VALUES(1, 'Your Next Five Moves', ' Greg Dinkin', 'Business & Investing', 'like new',5,'https://images-na.ssl-images-amazon.com/images/I/41z2wSFrXbL._SX326_BO1,204,203,200_.jpg',14,'ThriftBook');
+INSERT INTO BookDetail VALUES(2, 'The Christmas Pig', 'J.K. Rowling', 'Children Books','good', 3,'https://images-na.ssl-images-amazon.com/images/I/51rg5EDPpDL._SX336_BO1,204,203,200_.jpg',12,'ThriftBook');
+INSERT INTO BookDetail VALUES(3,'The Very Hungry Caterpillar', 'Eric Carle ', 'Children Books','old',2, 'https://images-na.ssl-images-amazon.com/images/I/41tyokViuNL._SY355_BO1,204,203,200_.jpg',6.25,'ThriftBook');
+INSERT INTO BookDetail VALUES(4,'Will', 'Will Smith ', 'Biographies & Memoirs', 'like new', 3, 'https://images-na.ssl-images-amazon.com/images/I/51oDyfsqKwL._SX327_BO1,204,203,200_.jpg',10,'ThriftBook');
 
     GO
-
-CREATE TABLE BookRating(
-	bookID	INT FOREIGN KEY REFERENCES BookDetail(bookID),
-	buyerID	INT FOREIGN KEY REFERENCES Buyer(buyerID),
-	bookRating DECIMAL,
-	comments VARCHAR(255),
-	PRIMARY KEY (bookID, buyerID));
-INSERT INTO BookRating VALUES(1,1,4.5,'good book');
-INSERT INTO BookRating VALUES(2,1,4.8,'children like it');
-INSERT INTO BookRating VALUES(3,2,4.3,'');
-    GO
-SELECT * FROM BookDetail
-
-	GO
-
 CREATE TABLE Buyer (
 	buyerID INT,
 	firstName VARCHAR(30),
@@ -57,23 +55,13 @@ CREATE TABLE Buyer (
 	phoneNumber INT
 	PRIMARY KEY (buyerID));
 INSERT INTO Buyer VALUES(1,'Keanu','Reeves', 'keanureeves@gmail.com', 'Los Angeles', 'Coldwater Canyon', '90210', 123456);
-INSERT INTO Buyer VALUES((2,'Tiger','King', 'tigerking@gmail.com', 'Miami', 'Sunset Blvd.', '10101', 654321);
-INSERT INTO Buyer VALUES((3,'Homer','Simpson', 'homer.j.simpson@gmail.com', 'Springfield', 'Evergreen Terrace', '12121', 123321);
-INSERT INTO Buyer VALUES((4,'Daenerys', 'Targaryen', 'emailia.clarke@gmail.com', 'Dragonstone', 'Free Cities St.', '13337', 654321);
+INSERT INTO Buyer VALUES(2,'Tiger','King', 'tigerking@gmail.com', 'Miami', 'Sunset Blvd.', '10101', 654321);
+INSERT INTO Buyer VALUES(3,'Homer','Simpson', 'homer.j.simpson@gmail.com', 'Springfield', 'Evergreen Terrace', '12121', 123321);
+INSERT INTO Buyer VALUES(4,'Daenerys', 'Targaryen', 'emailia.clarke@gmail.com', 'Dragonstone', 'Free Cities St.', '13337', 654321);
 
 	GO
 
-CREATE TABLE Store (
-	storeName VARCHAR(30),	
-	email VARCHAR(40),
-	city VARCHAR(30),
-	street VARCHAR(30),
-	postalCode VARCHAR(30),
-	phoneNumber INT
-	PRIMARY KEY (storeName));
-INSERT INTO Store VALUES('ThriftBook','thriftbook@thriftbook.com','Vancouver', 'Pacific Boulevard', 'V2W1B5', '778-689-1000');
 
-	GO
 
 
 	CREATE TABLE [Profile] (
@@ -91,10 +79,19 @@ INSERT INTO Profile VALUES( 6,'alicelost@gmail.com','inCodeland', null);
 
 	GO
 
-
+CREATE TABLE BookRating(
+	bookID	INT FOREIGN KEY REFERENCES BookDetail(bookID),
+	buyerID	INT FOREIGN KEY REFERENCES Buyer(buyerID),
+	bookRating DECIMAL,
+	comments VARCHAR(255),
+	PRIMARY KEY (bookID, buyerID));
+INSERT INTO BookRating VALUES(1,1,4.5,'good book');
+INSERT INTO BookRating VALUES(2,1,4.8,'children like it');
+INSERT INTO BookRating VALUES(3,2,4.3,'');
+    GO
 CREATE TABLE Invoice (
 	transactionId INT,	
-	buyerID INT,
+	buyerID  INT FOREIGN KEY REFERENCES BookDetail(bookID),
 	totalPrice FLOAT,
 	dateOfTransaction DATE,
 	PRIMARY KEY (transactionId));
@@ -118,3 +115,5 @@ INSERT INTO OrderDetail VALUES( 100003, 3, 1);
 INSERT INTO OrderDetail VALUES( 100004, 4, 1);
 INSERT INTO OrderDetail VALUES( 100005, 3, 1);
   GO
+
+
