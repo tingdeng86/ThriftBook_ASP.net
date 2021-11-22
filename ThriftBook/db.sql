@@ -1,7 +1,4 @@
-﻿
-
-
-IF OBJECT_ID('BookRating', 'U')    
+﻿IF OBJECT_ID('BookRating', 'U')    
 	IS NOT NULL DROP TABLE BookRating;
 
 IF OBJECT_ID('[Profile]', 'U')    
@@ -33,7 +30,7 @@ CREATE TABLE BookDetail(
 	bookID INT	PRIMARY KEY,
 	title	  VARCHAR(30),	
 	author	  VARCHAR(30),	
-	gennre	  VARCHAR(30),
+	genre	  VARCHAR(30),
 	bookQuality VARCHAR(20),
 	bookQuantity INT,
 	bookPhoto  VARCHAR(255),
@@ -70,13 +67,14 @@ INSERT INTO Buyer VALUES(4,'Daenerys', 'Targaryen', 'emailia.clarke@gmail.com', 
 	email VARCHAR(40),
 	[password] VARCHAR(40),
 	buyerID	INT FOREIGN KEY REFERENCES Buyer(buyerID),
+	storeName VARCHAR(30) FOREIGN KEY REFERENCES Store(storeName),
 	PRIMARY KEY (customerId));
-INSERT INTO Profile VALUES( 1,'keanureeves@gmail.com','socuteguy', 1);
-INSERT INTO Profile VALUES( 2,'tigerking@gmail.com','TingKing', 2);
-INSERT INTO Profile VALUES( 3,'homer.j.simpson@gmail.com','theSimpsons', 3);
-INSERT INTO Profile VALUES( 4,'emailia.clarke@gmail.com','emailMe', 4);
-INSERT INTO Profile VALUES( 5,'beourguest@gmail.com','beautyandthebeast', null);
-INSERT INTO Profile VALUES( 6,'alicelost@gmail.com','inCodeland', null);
+INSERT INTO Profile VALUES( 1,'keanureeves@gmail.com','socuteguy', 1,null);
+INSERT INTO Profile VALUES( 2,'tigerking@gmail.com','TingKing', 2,null);
+INSERT INTO Profile VALUES( 3,'homer.j.simpson@gmail.com','theSimpsons', 3,null);
+INSERT INTO Profile VALUES( 4,'emailia.clarke@gmail.com','emailMe', 4,null);
+INSERT INTO Profile VALUES( 5,'beourguest@gmail.com','beautyandthebeast',null, null);
+INSERT INTO Profile VALUES( 6,'thriftbook@thriftbook.com','inCodeland', null,'ThriftBook');
 
 	GO
 
@@ -96,25 +94,5 @@ CREATE TABLE Invoice (
 	totalPrice FLOAT,
 	dateOfTransaction DATE,
 	PRIMARY KEY (transactionId));
-INSERT INTO Invoice VALUES( 100001, 1, 4.30, 2021-10-16);
-INSERT INTO Invoice VALUES( 100002, 2, 8.10, 2021-11-03);
-INSERT INTO Invoice VALUES( 100003, 3, 11.20, 2021-11-08);
-INSERT INTO Invoice VALUES( 100004, 4, 7.50, 2021-11-13);
-INSERT INTO Invoice VALUES( 100005, 1, 5.60, 2021-11-15);
-
-	GO
-
-
-CREATE TABLE OrderDetail (
-    transactionId INT,
-    bookID	INT FOREIGN KEY REFERENCES BookDetail(bookID),
-	bookQuantity INT
-	PRIMARY KEY (transactionId, bookID));
-INSERT INTO OrderDetail VALUES( 100001, 1, 1);
-INSERT INTO OrderDetail VALUES( 100002, 2, 1);
-INSERT INTO OrderDetail VALUES( 100003, 3, 1);
-INSERT INTO OrderDetail VALUES( 100004, 4, 1);
-INSERT INTO OrderDetail VALUES( 100005, 3, 1);
-  GO
-
-SELECT * FROM BookDetail
+INSERT INTO Invoice VALUES( 100001, 1, 4.30, '2021-10-16');
+INSERT INTO Invoice VALUES( 100002, 2, 8.10, '2021-11-03');
