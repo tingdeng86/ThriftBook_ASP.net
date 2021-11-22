@@ -88,6 +88,7 @@ INSERT INTO BookRating VALUES(1,1,4.5,'good book');
 INSERT INTO BookRating VALUES(2,1,4.8,'children like it');
 INSERT INTO BookRating VALUES(3,2,4.3,'');
     GO
+
 CREATE TABLE Invoice (
 	transactionId INT,	
 	buyerID  INT FOREIGN KEY REFERENCES BookDetail(bookID),
