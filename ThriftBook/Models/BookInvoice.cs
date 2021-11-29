@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace ThriftBook.Models
 {
-    public partial class OrderDetail
+    public partial class BookInvoice
     {
         public int TransactionId { get; set; }
         public int BookId { get; set; }
-        public int? BookQuantity { get; set; }
 
-        public virtual BookDetail Book { get; set; }
+        public virtual Book Book { get; set; }
+        public virtual Invoice Transaction { get; set; }
     }
 }

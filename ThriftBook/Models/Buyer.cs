@@ -10,7 +10,7 @@ namespace ThriftBook.Models
         public Buyer()
         {
             BookRatings = new HashSet<BookRating>();
-            Profiles = new HashSet<Profile>();
+            Invoices = new HashSet<Invoice>();
         }
 
         public int BuyerId { get; set; }
@@ -23,6 +23,6 @@ namespace ThriftBook.Models
         public int? PhoneNumber { get; set; }
 
         public virtual ICollection<BookRating> BookRatings { get; set; }
-        public virtual ICollection<Profile> Profiles { get; set; }
+        public virtual ICollection<Invoice> Invoices { get; set; }
     }
 }

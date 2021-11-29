@@ -5,19 +5,18 @@ using System.Collections.Generic;
 
 namespace ThriftBook.Models
 {
-    public partial class BookDetail
+    public partial class Book
     {
-        public BookDetail()
+        public Book()
         {
+            BookInvoices = new HashSet<BookInvoice>();
             BookRatings = new HashSet<BookRating>();
-            Invoices = new HashSet<Invoice>();
-            OrderDetails = new HashSet<OrderDetail>();
         }
 
         public int BookId { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
-        public string Gennre { get; set; }
+        public string Genre { get; set; }
         public string BookQuality { get; set; }
         public int? BookQuantity { get; set; }
         public string BookPhoto { get; set; }
@@ -25,8 +24,7 @@ namespace ThriftBook.Models
         public string StoreName { get; set; }
 
         public virtual Store StoreNameNavigation { get; set; }
+        public virtual ICollection<BookInvoice> BookInvoices { get; set; }
         public virtual ICollection<BookRating> BookRatings { get; set; }
-        public virtual ICollection<Invoice> Invoices { get; set; }
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

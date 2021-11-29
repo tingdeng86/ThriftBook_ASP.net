@@ -12,7 +12,7 @@ namespace ThriftBook.Models
         public decimal? BookRating1 { get; set; }
         public string Comments { get; set; }
 
-        public virtual BookDetail Book { get; set; }
+        public virtual Book Book { get; set; }
         public virtual Buyer Buyer { get; set; }
     }
 }

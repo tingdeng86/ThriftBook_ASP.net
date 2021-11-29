@@ -9,7 +9,7 @@ namespace ThriftBook.Models
     {
         public Store()
         {
-            BookDetails = new HashSet<BookDetail>();
+            Books = new HashSet<Book>();
         }
 
         public string StoreName { get; set; }
@@ -19,6 +19,6 @@ namespace ThriftBook.Models
         public string PostalCode { get; set; }
         public string PhoneNumber { get; set; }
 
-        public virtual ICollection<BookDetail> BookDetails { get; set; }
+        public virtual ICollection<Book> Books { get; set; }
     }
 }

@@ -24,12 +24,11 @@ namespace ThriftBook.Models
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
-        public virtual DbSet<BookDetail> BookDetails { get; set; }
+        public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<BookInvoice> BookInvoices { get; set; }
         public virtual DbSet<BookRating> BookRatings { get; set; }
         public virtual DbSet<Buyer> Buyers { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
-        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
-        public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<Store> Stores { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -140,12 +139,9 @@ namespace ThriftBook.Models
                     .HasForeignKey(d => d.UserId);
             });
 
-            modelBuilder.Entity<BookDetail>(entity =>
+            modelBuilder.Entity<Book>(entity =>
             {
-                entity.HasKey(e => e.BookId)
-                    .HasName("PK__BookDeta__8BE5A12DE7297A93");
-
-                entity.ToTable("BookDetail");
+                entity.ToTable("Book");
 
                 entity.Property(e => e.BookId)
                     .ValueGeneratedNever()
@@ -168,10 +164,10 @@ namespace ThriftBook.Models
 
                 entity.Property(e => e.BookQuantity).HasColumnName("bookQuantity");
 
-                entity.Property(e => e.Gennre)
+                entity.Property(e => e.Genre)
                     .HasMaxLength(30)
                     .IsUnicode(false)
-                    .HasColumnName("gennre");
+                    .HasColumnName("genre");
 
                 entity.Property(e => e.Price)
                     .HasColumnType("money")
@@ -188,15 +184,39 @@ namespace ThriftBook.Models
                     .HasColumnName("title");
 
                 entity.HasOne(d => d.StoreNameNavigation)
-                    .WithMany(p => p.BookDetails)
+                    .WithMany(p => p.Books)
                     .HasForeignKey(d => d.StoreName)
-                    .HasConstraintName("FK__BookDetai__store__39237A9A");
+                    .HasConstraintName("FK__Book__storeName__5C37ACAD");
+            });
+
+            modelBuilder.Entity<BookInvoice>(entity =>
+            {
+                entity.HasKey(e => new { e.BookId, e.TransactionId })
+                    .HasName("PK__BookInvo__B250DDDA90BA4C14");
+
+                entity.ToTable("BookInvoice");
+
+                entity.Property(e => e.BookId).HasColumnName("bookID");
+
+                entity.Property(e => e.TransactionId).HasColumnName("transactionId");
+
+                entity.HasOne(d => d.Book)
+                    .WithMany(p => p.BookInvoices)
+                    .HasForeignKey(d => d.BookId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__BookInvoi__bookI__689D8392");
+
+                entity.HasOne(d => d.Transaction)
+                    .WithMany(p => p.BookInvoices)
+                    .HasForeignKey(d => d.TransactionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__BookInvoi__trans__67A95F59");
             });
 
             modelBuilder.Entity<BookRating>(entity =>
             {
                 entity.HasKey(e => new { e.BookId, e.BuyerId })
-                    .HasName("PK__BookRati__D652DB4F833F5C26");
+                    .HasName("PK__BookRati__D652DB4F2D0C0FF7");
 
                 entity.ToTable("BookRating");
 
@@ -217,13 +237,13 @@ namespace ThriftBook.Models
                     .WithMany(p => p.BookRatings)
                     .HasForeignKey(d => d.BookId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__BookRatin__bookI__40C49C62");
+                    .HasConstraintName("FK__BookRatin__bookI__60FC61CA");
 
                 entity.HasOne(d => d.Buyer)
                     .WithMany(p => p.BookRatings)
                     .HasForeignKey(d => d.BuyerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__BookRatin__buyer__41B8C09B");
+                    .HasConstraintName("FK__BookRatin__buyer__61F08603");
             });
 
             modelBuilder.Entity<Buyer>(entity =>
@@ -270,7 +290,7 @@ namespace ThriftBook.Models
             modelBuilder.Entity<Invoice>(entity =>
             {
                 entity.HasKey(e => e.TransactionId)
-                    .HasName("PK__Invoice__9B57CF72F09192B5");
+                    .HasName("PK__Invoice__9B57CF72BD9F0531");
 
                 entity.ToTable("Invoice");
 
@@ -289,62 +309,13 @@ namespace ThriftBook.Models
                 entity.HasOne(d => d.Buyer)
                     .WithMany(p => p.Invoices)
                     .HasForeignKey(d => d.BuyerId)
-                    .HasConstraintName("FK__Invoice__buyerID__44952D46");
-            });
-
-            modelBuilder.Entity<OrderDetail>(entity =>
-            {
-                entity.HasKey(e => new { e.TransactionId, e.BookId })
-                    .HasName("PK__OrderDet__53E99560362CE6A3");
-
-                entity.ToTable("OrderDetail");
-
-                entity.Property(e => e.TransactionId).HasColumnName("transactionId");
-
-                entity.Property(e => e.BookId).HasColumnName("bookID");
-
-                entity.Property(e => e.BookQuantity).HasColumnName("bookQuantity");
-
-                entity.HasOne(d => d.Book)
-                    .WithMany(p => p.OrderDetails)
-                    .HasForeignKey(d => d.BookId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderDeta__bookI__477199F1");
-            });
-
-            modelBuilder.Entity<Profile>(entity =>
-            {
-                entity.HasKey(e => e.CustomerId)
-                    .HasName("PK__Profile__B611CB7DF3AE500A");
-
-                entity.ToTable("Profile");
-
-                entity.Property(e => e.CustomerId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("customerId");
-
-                entity.Property(e => e.BuyerId).HasColumnName("buyerID");
-
-                entity.Property(e => e.Email)
-                    .HasMaxLength(40)
-                    .IsUnicode(false)
-                    .HasColumnName("email");
-
-                entity.Property(e => e.Password)
-                    .HasMaxLength(40)
-                    .IsUnicode(false)
-                    .HasColumnName("password");
-
-                entity.HasOne(d => d.Buyer)
-                    .WithMany(p => p.Profiles)
-                    .HasForeignKey(d => d.BuyerId)
-                    .HasConstraintName("FK__Profile__buyerID__3DE82FB7");
+                    .HasConstraintName("FK__Invoice__buyerID__64CCF2AE");
             });
 
             modelBuilder.Entity<Store>(entity =>
             {
                 entity.HasKey(e => e.StoreName)
-                    .HasName("PK__Store__0E3E451C95E622EB");
+                    .HasName("PK__Store__0E3E451C32298ABE");
 
                 entity.ToTable("Store");
 
